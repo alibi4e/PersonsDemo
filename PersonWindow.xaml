@@ -4,61 +4,18 @@
     xmlns:Behaviors="http://schemas.microsoft.com/xaml/behaviors"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    xmlns:model="clr-namespace:PersonsDemo.Model"
     xmlns:personsdemo="clr-namespace:PersonsDemo"
+    WindowStartupLocation="CenterScreen"
+    WindowState="Maximized"
+    WindowStyle="None"
     mc:Ignorable="d">
+    <Window.InputBindings>
+        <KeyBinding Key="Esc" Command="ApplicationCommands.Close" />
+    </Window.InputBindings>
 
-    <!--
-        WindowStartupLocation="CenterScreen"
-        WindowState="Maximized"
-        WindowStyle="None"
-    -->
-    <Window.Resources>
-        <Style x:Key="BaseBorder" TargetType="Border">
-            <Setter Property="BorderBrush" Value="Gray" />
-            <Setter Property="BorderThickness" Value="3" />
-        </Style>
-        <Style x:Key="ApplicationBorder" TargetType="Border" BasedOn="{StaticResource BaseBorder}" />
-
-        <Style x:Key="PersonBorder" TargetType="Border" BasedOn="{StaticResource BaseBorder}" />
-
-        <Style x:Key="AppToolsBorder" TargetType="Border" BasedOn="{StaticResource BaseBorder}">
-            <Setter Property="Width" Value="300" />
-            <Setter Property="Height" Value="50" />
-            <Setter Property="Margin" Value="20 10 20 0" />
-            <Setter Property="VerticalAlignment" Value="Top" />
-        </Style>
-
-        <Style x:Key="SortComboBorder" TargetType="Border" BasedOn="{StaticResource AppToolsBorder}">
-            <Setter Property="HorizontalAlignment" Value="Left" />
-        </Style>
-
-        <Style x:Key="ComboFilterBorder" TargetType="Border" BasedOn="{StaticResource AppToolsBorder}">
-            <Setter Property="HorizontalAlignment" Value="Right" />
-        </Style>
-
-        <Style x:Key="ApplicationTitleStyle" TargetType="TextBlock">
-            <Setter Property="HorizontalAlignment" Value="Center" />
-            <Setter Property="FontSize" Value="40" />
-            <Setter Property="FontWeight" Value="SemiBold" />
-        </Style>
-        <DataTemplate x:Key="PersonDataTemplate" DataType="{x:Type model:Person}">
-            <Border Width="120" Height="150" Margin="10" Style="{StaticResource PersonBorder}">
-                <StackPanel Margin="0 4 0 0" HorizontalAlignment="Center" Orientation="Vertical">
-                    <TextBlock HorizontalAlignment="Center" Text="{Binding Name}" />
-                    <TextBlock HorizontalAlignment="Center" Text="{Binding Country}" />
-                    <TextBlock HorizontalAlignment="Center" Text="{Binding Phone}" />
-                </StackPanel>
-            </Border>
-        </DataTemplate>
-        <DataTemplate x:Key="SortTemplate">
-            <TextBlock HorizontalAlignment="Center" VerticalAlignment="Center" Text="{Binding}" FontSize="15" />
-        </DataTemplate>
-
-        <ItemsPanelTemplate x:Key="PersonsItemsPanelTemplate">
-            <WrapPanel />
-        </ItemsPanelTemplate>
-    </Window.Resources>
+    <Window.CommandBindings>
+        <CommandBinding Command="ApplicationCommands.Close" Executed="OnCloseCommandBindingExecuted" />
+    </Window.CommandBindings>
     <Behaviors:Interaction.Triggers>
         <Behaviors:EventTrigger EventName="Loaded" SourceObject="{Binding ElementName=personsWindow}">
             <Behaviors:InvokeCommandAction Command="{Binding PersonWindowLoadedCommand}" />
@@ -88,7 +45,7 @@
                         </Behaviors:Interaction.Triggers>
                     </ComboBox>
                 </Border>
-                <TextBlock Grid.Column="1" Style="{StaticResource ApplicationTitleStyle}" Text="Application" />
+                <TextBlock Grid.Column="1" Style="{StaticResource ApplicationTitleStyle}" Text="{StaticResource ApplicationTitle}" />
                 <Border Grid.Column="2" Style="{StaticResource ComboFilterBorder}">
                     <personsdemo:MultiSelectComboBox Width="150" Height="30"
                         ItemsSelectedCommand="{Binding CountrySelectedCommand}"

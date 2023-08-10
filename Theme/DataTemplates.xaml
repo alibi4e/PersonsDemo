@@ -1,0 +1,19 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:model="clr-namespace:PersonsDemo.Model">
+    <ResourceDictionary.MergedDictionaries>
+        <ResourceDictionary Source="/PersonsDemo;component/Theme/Styles.xaml" />
+    </ResourceDictionary.MergedDictionaries>
+    <DataTemplate x:Key="PersonDataTemplate" DataType="{x:Type model:Person}">
+        <Border Width="120" Height="150" Margin="10" Style="{StaticResource PersonBorder}">
+            <StackPanel Margin="0 4 0 0" HorizontalAlignment="Center" Orientation="Vertical">
+                <TextBlock HorizontalAlignment="Center" Text="{Binding Name}" />
+                <TextBlock HorizontalAlignment="Center" Text="{Binding Country}" />
+                <TextBlock HorizontalAlignment="Center" Text="{Binding Phone}" />
+            </StackPanel>
+        </Border>
+    </DataTemplate>
+    <DataTemplate x:Key="SortTemplate">
+        <TextBlock HorizontalAlignment="Center" VerticalAlignment="Center" Text="{Binding}" FontSize="15" />
+    </DataTemplate>
+</ResourceDictionary>

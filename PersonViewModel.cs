@@ -50,14 +50,14 @@ namespace PersonsDemo
             PersonsView?.Refresh();
         }
 
-        private bool FilterByCountry(object obj)
+        private bool FilterByCountry(object personObject)
         {
             if (SelectedCountries == null)
             {
                 return true;
             }
 
-            if (obj is not Person person)
+            if (personObject is not Person person)
             {
                 return false;
             }

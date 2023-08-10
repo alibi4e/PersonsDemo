@@ -1,5 +1,6 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using PersonsDemo.DataParser;
 using PersonsDemo.Service;
 using System;
 using System.Windows;
@@ -13,18 +14,20 @@ namespace PersonsDemo
     {
         IHost host;
 
-        public App()
+        protected override void OnStartup(StartupEventArgs e)
         {
+            base.OnStartup(e);
             host = Host.CreateDefaultBuilder()
            .ConfigureServices((hostContext, services) =>
            {
                services.AddScoped<PersonViewModel>();
+               services.AddScoped<IPersonCsvParser, PersonCsvParser>();
                services.AddScoped<IPersonDataService, PersonDataService>();
                services.AddSingleton<PersonWindow>();
            }).Build();
 
-           using(var serviceScope = host.Services.CreateScope())
-           {
+            using (var serviceScope = host.Services.CreateScope())
+            {
                 var services = serviceScope.ServiceProvider;
                 try
                 {
@@ -35,7 +38,7 @@ namespace PersonsDemo
                 {
                     Console.WriteLine("Error Occured" + ex.Message);
                 }
-           }
+            }
         }
     }
 }
