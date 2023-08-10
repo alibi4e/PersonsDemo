@@ -97,7 +97,7 @@ public partial class MultiSelectComboBox : UserControl
     {
         CheckBox clickedBox = (CheckBox)sender;
 
-        if (clickedBox.Content == "All")
+        if (clickedBox.Content as string == "All")
         {
             if (clickedBox.IsChecked.Value)
             {
@@ -127,6 +127,7 @@ public partial class MultiSelectComboBox : UserControl
             else
                 _nodeList.FirstOrDefault(i => i.Title == "All").IsSelected = false;
         }
+
         SetSelectedItems();
         SetText();
         ItemsSelectedCommand?.Execute(Text);
