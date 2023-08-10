@@ -12,8 +12,11 @@ namespace PersonsDemo
     /// </summary>
     public partial class App : Application
     {
-        IHost host;
+        #region Private Members
+        private IHost? host;
+        #endregion
 
+        #region Overrides
         protected override void OnStartup(StartupEventArgs e)
         {
             base.OnStartup(e);
@@ -40,5 +43,6 @@ namespace PersonsDemo
                 }
             }
         }
+        #endregion
     }
 }

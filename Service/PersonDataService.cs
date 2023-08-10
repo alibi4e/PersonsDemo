@@ -7,13 +7,18 @@ namespace PersonsDemo.Service
 {
     public class PersonDataService : IPersonDataService
     {
-        private  IPersonCsvParser PersonCsvParser { get; set; }
+        #region Private Members
+        private IPersonCsvParser PersonCsvParser { get; set; }
+        #endregion
 
+        #region Contructor
         public PersonDataService(IPersonCsvParser personCsvParser)
         {
             PersonCsvParser = (PersonCsvParser)personCsvParser;
         }
+        #endregion
 
+        #region Public Methods
         public async Task<IList<Person>> GetPersons()
         {
             var result = await Task.Factory.StartNew(() => {
@@ -23,5 +28,6 @@ namespace PersonsDemo.Service
 
             return result;
         }
+        #endregion
     }
 }

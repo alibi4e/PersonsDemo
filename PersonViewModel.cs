@@ -2,13 +2,11 @@
 using CommunityToolkit.Mvvm.Input;
 using PersonsDemo.Model;
 using PersonsDemo.Service;
-using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Linq;
 using System.Threading.Tasks;
-using System.Windows.Controls.Primitives;
 using System.Windows.Data;
 using System.Windows.Input;
 
@@ -16,6 +14,11 @@ namespace PersonsDemo
 {
     public partial class PersonViewModel : ObservableObject
     {
+        #region Private Members
+        private IPersonDataService? PersonDataService { get; set; } = null;
+        #endregion
+
+        #region Public Properties
         [ObservableProperty]
         public ICollectionView? _personsView;
 
@@ -24,10 +27,8 @@ namespace PersonsDemo
 
         [ObservableProperty]
         public Dictionary<string, object>? _selectedCountries = new();
-
-        public List<string>? SortFields { get; set; } = new() { "Name", "Country" };
-
-        private IPersonDataService? PersonDataService { get; set; } = null;
+        
+        public List<string>? SortFields { get; set; } = new() { "Name", "Country" };        
 
         public ObservableCollection<Person>? Persons { get; set; }
 
@@ -36,7 +37,9 @@ namespace PersonsDemo
         public ICommand? SortCommand { get; set; }
 
         public ICommand? CountrySelectedCommand { get; set; }
+        #endregion
 
+        #region Contructor
         public PersonViewModel(IPersonDataService personDataService)
         {
             PersonDataService = personDataService;
@@ -44,7 +47,9 @@ namespace PersonsDemo
             SortCommand = new RelayCommand<string>(Sort);
             CountrySelectedCommand = new RelayCommand(CountrySelected);
         }
+        #endregion
 
+        #region Private Methods
         private void CountrySelected()
         {
             PersonsView?.Refresh();
@@ -88,5 +93,6 @@ namespace PersonsDemo
             var uniqueCountryList = Persons?.Select(item => new KeyValuePair<string, object>(item.Country ?? string.Empty, item)).GroupBy(x => x.Key).Select(g => g.First()).ToList();
             return uniqueCountryList?.ToDictionary(x => x.Key, x => x.Value);
         }
-     }
+        #endregion
+    }
 }

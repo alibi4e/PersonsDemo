@@ -4,7 +4,6 @@ using System.Text;
 using System.Windows;
 using System.Windows.Controls;
 using System.Collections.ObjectModel;
-using System.ComponentModel;
 using System.Windows.Input;
 
 namespace PersonsDemo;
@@ -14,22 +13,25 @@ namespace PersonsDemo;
 /// </summary>
 public partial class MultiSelectComboBox : UserControl
 {
+    #region Private Members
     private ObservableCollection<Node> _nodeList;
+    #endregion
+
+    #region Constructor
     public MultiSelectComboBox()
     {
         InitializeComponent();
         _nodeList = new ObservableCollection<Node>();
     }
+    #endregion
 
     #region Dependency Properties
 
     public static readonly DependencyProperty ItemsSourceProperty =
-         DependencyProperty.Register("ItemsSource", typeof(Dictionary<string, object>), typeof(MultiSelectComboBox), new FrameworkPropertyMetadata(null,
-    new PropertyChangedCallback(MultiSelectComboBox.OnItemsSourceChanged)));
+         DependencyProperty.Register("ItemsSource", typeof(Dictionary<string, object>), typeof(MultiSelectComboBox), new FrameworkPropertyMetadata(null, new PropertyChangedCallback(MultiSelectComboBox.OnItemsSourceChanged)));
 
     public static readonly DependencyProperty SelectedItemsProperty =
-     DependencyProperty.Register("SelectedItems", typeof(Dictionary<string, object>), typeof(MultiSelectComboBox), new FrameworkPropertyMetadata(null,
- new PropertyChangedCallback(MultiSelectComboBox.OnSelectedItemsChanged)));
+     DependencyProperty.Register("SelectedItems", typeof(Dictionary<string, object>), typeof(MultiSelectComboBox), new FrameworkPropertyMetadata(null, new PropertyChangedCallback(MultiSelectComboBox.OnSelectedItemsChanged)));
 
     public static readonly DependencyProperty TextProperty =
        DependencyProperty.Register("Text", typeof(string), typeof(MultiSelectComboBox), new UIPropertyMetadata(string.Empty));
@@ -131,7 +133,6 @@ public partial class MultiSelectComboBox : UserControl
     }
     #endregion
 
-
     #region Methods
     private void SelectNodes()
     {
@@ -198,58 +199,6 @@ public partial class MultiSelectComboBox : UserControl
         {
             this.Text = this.DefaultText;
         }
-    }
-
-   
+    }   
     #endregion
-}
-
-public class Node : INotifyPropertyChanged
-{
-
-    private string _title;
-    private bool _isSelected;
-    #region ctor
-    public Node(string title)
-    {
-        Title = title;
-    }
-    #endregion
-
-    #region Properties
-    public string Title
-    {
-        get
-        {
-            return _title;
-        }
-        set
-        {
-            _title = value;
-            NotifyPropertyChanged("Title");
-        }
-    }
-    public bool IsSelected
-    {
-        get
-        {
-            return _isSelected;
-        }
-        set
-        {
-            _isSelected = value;
-            NotifyPropertyChanged("IsSelected");
-        }
-    }
-    #endregion
-
-    public event PropertyChangedEventHandler PropertyChanged;
-    protected void NotifyPropertyChanged(string propertyName)
-    {
-        if (PropertyChanged != null)
-        {
-            PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
-        }
-    }
-
 }

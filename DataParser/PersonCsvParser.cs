@@ -4,13 +4,13 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 using TinyCsvParser;
 
 namespace PersonsDemo.DataParser
 {
     public class PersonCsvParser : IPersonCsvParser
     {
+        #region Public Methods
         public List<Person> ParsePersons(string fileName)
         {
             try
@@ -27,5 +27,6 @@ namespace PersonsDemo.DataParser
             }
             return new List<Person>();
         }
+        #endregion
     }
 }

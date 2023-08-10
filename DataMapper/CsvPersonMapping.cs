@@ -5,6 +5,7 @@ namespace PersonsDemo.DataMapper
 {
     public class CsvPersonMapping : CsvMapping<Person>
     {
+        #region Constructor
         public CsvPersonMapping()
             : base()
         {
@@ -15,5 +16,6 @@ namespace PersonsDemo.DataMapper
             MapProperty(4, x => x.Email);
             MapProperty(5, x => x.Phone);
         }
+        #endregion
     }
 }

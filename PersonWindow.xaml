@@ -5,6 +5,7 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:personsdemo="clr-namespace:PersonsDemo"
+    xmlns:resources="clr-namespace:PersonsDemo.Resources"
     WindowStartupLocation="CenterScreen"
     WindowState="Maximized"
     WindowStyle="None"
@@ -45,7 +46,7 @@
                         </Behaviors:Interaction.Triggers>
                     </ComboBox>
                 </Border>
-                <TextBlock Grid.Column="1" Style="{StaticResource ApplicationTitleStyle}" Text="{StaticResource ApplicationTitle}" />
+                <TextBlock Grid.Column="1" Style="{StaticResource ApplicationTitleStyle}" Text="{x:Static resources:Resource.ApplicationTitle}" />
                 <Border Grid.Column="2" Style="{StaticResource ComboFilterBorder}">
                     <personsdemo:MultiSelectComboBox Width="150" Height="30"
                         ItemsSelectedCommand="{Binding CountrySelectedCommand}"
