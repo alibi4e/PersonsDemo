@@ -1,0 +1,105 @@
+﻿<Window x:Class="PersonsDemo.PersonWindow" x:Name="personsWindow"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:Behaviors="http://schemas.microsoft.com/xaml/behaviors"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:model="clr-namespace:PersonsDemo.Model"
+    xmlns:personsdemo="clr-namespace:PersonsDemo"
+    mc:Ignorable="d">
+
+    <!--
+        WindowStartupLocation="CenterScreen"
+        WindowState="Maximized"
+        WindowStyle="None"
+    -->
+    <Window.Resources>
+        <Style x:Key="BaseBorder" TargetType="Border">
+            <Setter Property="BorderBrush" Value="Gray" />
+            <Setter Property="BorderThickness" Value="3" />
+        </Style>
+        <Style x:Key="ApplicationBorder" TargetType="Border" BasedOn="{StaticResource BaseBorder}" />
+
+        <Style x:Key="PersonBorder" TargetType="Border" BasedOn="{StaticResource BaseBorder}" />
+
+        <Style x:Key="AppToolsBorder" TargetType="Border" BasedOn="{StaticResource BaseBorder}">
+            <Setter Property="Width" Value="300" />
+            <Setter Property="Height" Value="50" />
+            <Setter Property="Margin" Value="20 10 20 0" />
+            <Setter Property="VerticalAlignment" Value="Top" />
+        </Style>
+
+        <Style x:Key="SortComboBorder" TargetType="Border" BasedOn="{StaticResource AppToolsBorder}">
+            <Setter Property="HorizontalAlignment" Value="Left" />
+        </Style>
+
+        <Style x:Key="ComboFilterBorder" TargetType="Border" BasedOn="{StaticResource AppToolsBorder}">
+            <Setter Property="HorizontalAlignment" Value="Right" />
+        </Style>
+
+        <Style x:Key="ApplicationTitleStyle" TargetType="TextBlock">
+            <Setter Property="HorizontalAlignment" Value="Center" />
+            <Setter Property="FontSize" Value="40" />
+            <Setter Property="FontWeight" Value="SemiBold" />
+        </Style>
+        <DataTemplate x:Key="PersonDataTemplate" DataType="{x:Type model:Person}">
+            <Border Width="120" Height="150" Margin="10" Style="{StaticResource PersonBorder}">
+                <StackPanel Margin="0 4 0 0" HorizontalAlignment="Center" Orientation="Vertical">
+                    <TextBlock HorizontalAlignment="Center" Text="{Binding Name}" />
+                    <TextBlock HorizontalAlignment="Center" Text="{Binding Country}" />
+                    <TextBlock HorizontalAlignment="Center" Text="{Binding Phone}" />
+                </StackPanel>
+            </Border>
+        </DataTemplate>
+        <DataTemplate x:Key="SortTemplate">
+            <TextBlock HorizontalAlignment="Center" VerticalAlignment="Center" Text="{Binding}" FontSize="15" />
+        </DataTemplate>
+
+        <ItemsPanelTemplate x:Key="PersonsItemsPanelTemplate">
+            <WrapPanel />
+        </ItemsPanelTemplate>
+    </Window.Resources>
+    <Behaviors:Interaction.Triggers>
+        <Behaviors:EventTrigger EventName="Loaded" SourceObject="{Binding ElementName=personsWindow}">
+            <Behaviors:InvokeCommandAction Command="{Binding PersonWindowLoadedCommand}" />
+        </Behaviors:EventTrigger>
+    </Behaviors:Interaction.Triggers>
+    <Border Margin="10 5" Padding="10 5" Style="{StaticResource ApplicationBorder}">
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="150" />
+                <RowDefinition />
+            </Grid.RowDefinitions>
+
+            <Grid Grid.Row="0">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+                <Border Grid.Column="0" Style="{StaticResource SortComboBorder}">
+                    <ComboBox x:Name="sortComboBox"
+                        Width="150" Height="30"
+                        ItemTemplate="{StaticResource SortTemplate}" ItemsSource="{Binding SortFields}">
+                        <Behaviors:Interaction.Triggers>
+                            <Behaviors:EventTrigger EventName="SelectionChanged" SourceObject="{Binding ElementName=sortComboBox}">
+                                <Behaviors:InvokeCommandAction Command="{Binding SortCommand}" CommandParameter="{Binding ElementName=sortComboBox, Path=SelectedItem}" />
+                            </Behaviors:EventTrigger>
+                        </Behaviors:Interaction.Triggers>
+                    </ComboBox>
+                </Border>
+                <TextBlock Grid.Column="1" Style="{StaticResource ApplicationTitleStyle}" Text="Application" />
+                <Border Grid.Column="2" Style="{StaticResource ComboFilterBorder}">
+                    <personsdemo:MultiSelectComboBox Width="150" Height="30"
+                        ItemsSelectedCommand="{Binding CountrySelectedCommand}"
+                        ItemsSource="{Binding CountryList, Mode=OneWay}" SelectedItems="{Binding SelectedCountries}"
+                        ToolTip="{Binding Path=Text, RelativeSource={RelativeSource Self}}" />
+                </Border>
+            </Grid>
+
+            <ScrollViewer Grid.Row="1" HorizontalScrollBarVisibility="Disabled" VerticalScrollBarVisibility="Auto">
+                <ItemsControl ItemTemplate="{StaticResource PersonDataTemplate}" ItemsPanel="{StaticResource PersonsItemsPanelTemplate}" ItemsSource="{Binding PersonsView, Mode=OneWay}" />
+            </ScrollViewer>
+        </Grid>
+    </Border>
+</Window>
